@@ -30,6 +30,8 @@
 #include <linux/iio/sysfs.h>
 #include <linux/iio/trigger_consumer.h>
 #include <linux/iio/kfifo_buf.h>
+#include <linux/iio/buffer.h>
+#include <linux/iio/buffer_impl.h>
 
 #define LSM9DS0_WHO_AM_I_REG            (0x0F)
 #define LSM9DS0_CTRL_REG1_G_REG         (0x20)
@@ -681,7 +683,7 @@ static irqreturn_t lsm9ds0_trigger_h(int irq, void *p)
     }
   }
 
-  iio_push_to_buffers_with_timestamp(indio_dev, buf_data, iio_get_time_ns());
+  iio_push_to_buffers_with_timestamp(indio_dev, buf_data, iio_get_time_ns(indio_dev));
 
 free_buf:
   kfree(buf_data);
